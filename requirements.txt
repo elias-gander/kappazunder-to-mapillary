@@ -4,3 +4,4 @@ tqdm
 geopandas 
 pandas 
 mapillary_tools
+ipykernel

@@ -1,3 +1,5 @@
-venv
-points.gpkg
-trajectories.gpkg
+*
+!*.ipynb
+!README.md
+!requirements.txt
+!.gitignore
