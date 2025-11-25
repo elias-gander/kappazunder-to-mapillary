@@ -1,5 +1,12 @@
 *
 !*.ipynb
+!download-and-upload-trajectories
+!download-and-upload-trajectories/__init__.py
+!download-and-upload-trajectories/constants.py
+!download-and-upload-trajectories/download_state_db.py
+!download-and-upload-trajectories/main.py
+!download-and-upload-trajectories/ready_to_download_checker.py
+!download-and-upload-trajectories/utils.py
 !README.md
 !requirements.txt
 !.gitignore
