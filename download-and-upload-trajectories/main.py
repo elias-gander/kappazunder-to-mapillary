@@ -200,6 +200,7 @@ while True:
                 "--noresume",
                 f"{download_id}/*/Bild-Rohdaten/Trajektorie_{original_trajectory_id}/Sensor_*{i}/",
             ],
+            shell=True,
             check=True,
         )
         download_state_db.execute(
