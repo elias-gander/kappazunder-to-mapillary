@@ -201,7 +201,7 @@ while True:
                 "--noresume",
                 glob.glob(
                     f"{download_id}/*/Bild-Rohdaten/Trajektorie_{original_trajectory_id}/Sensor_*{i}/"
-                ),
+                )[0],
             ],
             check=True,
         )
