@@ -8,6 +8,7 @@ import pandas as pd
 import shutil
 import subprocess
 import os
+import glob
 from constants import (
     EMAIL_ADDRESS,
     GMAIL_APP_PASSWORD,
@@ -198,9 +199,10 @@ while True:
                 "--user_name",
                 MAPILLARY_USER,
                 "--noresume",
-                f"{download_id}/*/Bild-Rohdaten/Trajektorie_{original_trajectory_id}/Sensor_*{i}/",
+                glob.glob(
+                    f"{download_id}/*/Bild-Rohdaten/Trajektorie_{original_trajectory_id}/Sensor_*{i}/"
+                ),
             ],
-            shell=True,
             check=True,
         )
         download_state_db.execute(
