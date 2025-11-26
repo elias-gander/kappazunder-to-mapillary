@@ -174,9 +174,8 @@ while True:
         continue
 
     extract_and_remove_tar(download_id)
-    trajectory_dir_paths = get_trajectory_dir_paths(
-        download_id, trajectory_id.split("_", 1)[0]
-    )
+    original_trajectory_id = trajectory_id.split("_", 1)[0]
+    trajectory_dir_paths = get_trajectory_dir_paths(download_id, original_trajectory_id)
     prune_downloaded_data(download_id, trajectory_dir_paths)
     remove_top_and_bottom_facing_images(trajectory_dir_paths)
     set_exif_tags(trajectory_dir_paths, points)
@@ -199,7 +198,7 @@ while True:
                 "--user_name",
                 MAPILLARY_USER,
                 "--noresume",
-                f"{download_id}/*/Bild-Rohdaten/Trajektorie_{trajectory_id}/Sensor_*{i}/",
+                f"{download_id}/*/Bild-Rohdaten/Trajektorie_{original_trajectory_id}/Sensor_*{i}/",
             ],
             check=True,
         )
