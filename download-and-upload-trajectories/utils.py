@@ -1,4 +1,5 @@
 import requests
+from requests.adapters import HTTPAdapter, Retry
 import shutil
 import piexif
 import tarfile
@@ -48,7 +49,15 @@ def confirm_email():
 def download(download_id, size):
     url = f"https://www.wien.gv.at/ogdgeodata/download/{download_id}.tar"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    with requests.get(url, headers=headers, stream=True) as r:
+    retries = Retry(
+        total=5,
+        backoff_factor=4,
+        status_forcelist=[500, 502, 503, 504],
+        allowed_methods=["GET"],
+    )
+    session = requests.Session()
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    with session.get(url, headers=headers, stream=True) as r:
         r.raise_for_status()
         block_size = 8 * 1024
         progress_bar = tqdm(
