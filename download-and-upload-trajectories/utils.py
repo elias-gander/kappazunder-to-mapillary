@@ -1,5 +1,4 @@
 import requests
-from requests.adapters import HTTPAdapter, Retry
 import shutil
 import piexif
 import tarfile

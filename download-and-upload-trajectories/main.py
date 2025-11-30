@@ -2,7 +2,6 @@ from datetime import datetime as dt
 import random
 from datetime import timedelta
 from time import sleep
-from requests.exceptions import HTTPError
 import geopandas as gpd
 import pandas as pd
 import shutil
@@ -22,7 +21,6 @@ from download_state_db import DownloadStateDb
 from ready_to_download_checker import ReadyToDownloadChecker
 from utils import (
     confirm_email,
-    download,
     extract_and_remove_tar,
     get_download_id_and_size_in_bytes,
     get_trajectory_dir_paths,
