@@ -156,22 +156,27 @@ while True:
     if os.path.isdir(download_id):
         shutil.rmtree(download_id)
 
-    try:
-        download(download_id, trajectory_to_download["download_bytes"])
-    except HTTPError as e:
-        if e.response.status_code == 404:
-            print(
-                f"Resetting downloadid {download_id} of trajectory {trajectory_id} because 404 error: {e}"
-            )
-            download_state_db.execute(
-                f"UPDATE trajectories SET download_id = NULL, download_bytes = NULL, download_expires_at = NULL WHERE trajectory_id = '{trajectory_id}'"
-            )
-        else:
-            print(
-                f"Sleeping for five minutes because download of trajectory {trajectory_id} with downloadid {download_id} failed with message: {e}"
-            )
-            sleep(300)
-
+    download_result = subprocess.run(
+        [
+            "aria2c",
+            f"https://www.wien.gv.at/ogdgeodata/download/{download_id}.tar",
+            f"--out={download_id}.tar",
+            "--allow-overwrite=true",
+            "--max-tries=5",
+            "--retry-wait=300",
+            "--timeout=300",
+            "--max-file-not-found=1",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if download_result.returncode != 0:
+        print(
+            f"Resetting downloadid {download_id} of trajectory {trajectory_id} because download failed"
+        )
+        download_state_db.execute(
+            f"UPDATE trajectories SET download_id = NULL, download_bytes = NULL, download_expires_at = NULL WHERE trajectory_id = '{trajectory_id}'"
+        )
         continue
 
     extract_and_remove_tar(download_id)

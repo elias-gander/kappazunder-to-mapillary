@@ -46,33 +46,6 @@ def confirm_email():
     response.raise_for_status()
 
 
-def download(download_id, size):
-    url = f"https://www.wien.gv.at/ogdgeodata/download/{download_id}.tar"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    retries = Retry(
-        total=5,
-        backoff_factor=4,
-        status_forcelist=[500, 502, 503, 504],
-        allowed_methods=["GET"],
-    )
-    session = requests.Session()
-    session.mount("https://", HTTPAdapter(max_retries=retries))
-    with session.get(url, headers=headers, stream=True) as r:
-        r.raise_for_status()
-        block_size = 8 * 1024
-        progress_bar = tqdm(
-            total=size,
-            unit="iB",
-            unit_scale=True,
-            desc=f"Downloading {download_id}.tar",
-        )
-        with open(download_id + ".tar", "wb") as f:
-            for chunk in r.iter_content(chunk_size=block_size):
-                progress_bar.update(len(chunk))
-                f.write(chunk)
-        progress_bar.close()
-
-
 def extract_and_remove_tar(download_id):
     tar_path = download_id + ".tar"
     with tarfile.open(tar_path, "r") as tar:
