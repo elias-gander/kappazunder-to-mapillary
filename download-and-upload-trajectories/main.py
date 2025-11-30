@@ -164,9 +164,7 @@ while True:
             "--retry-wait=300",
             "--timeout=300",
             "--max-file-not-found=1",
-        ],
-        capture_output=True,
-        text=True,
+        ]
     )
     if download_result.returncode != 0:
         print(
