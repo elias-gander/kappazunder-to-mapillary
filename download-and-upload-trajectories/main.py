@@ -96,7 +96,14 @@ while True:
         for traj in uncompleted_trajectories
         if traj["download_id"] in ready_to_download.get_ids()
     ]
-    if len(trajectories_to_download) <= 5 and not IS_DEBUG:
+    no_of_prepared_trajectories = len(
+        [traj for traj in uncompleted_trajectories if traj["download_id"] is not None]
+    )
+    if (
+        len(trajectories_to_download) <= 5
+        and no_of_prepared_trajectories < 20
+        and not IS_DEBUG
+    ):
         print(f"Only {len(trajectories_to_download)} downloadable trajectories left")
         trajectories_to_prepare = [
             traj for traj in uncompleted_trajectories if traj["download_id"] is None
