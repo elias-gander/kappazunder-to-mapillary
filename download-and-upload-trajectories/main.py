@@ -125,8 +125,8 @@ while True:
                             trajectories_df["trajectoryid"] == trajectory_id
                         ].geometry.values[0],
                     )
-                    print(f"size {size} vs limit {VOLUME_SIZE_IN_BYTES / 2 * 0.95}")
-                    if size > VOLUME_SIZE_IN_BYTES / 2 * 0.95:
+                    print(f"size {size} vs limit {VOLUME_SIZE_IN_BYTES * 0.3}")
+                    if size > VOLUME_SIZE_IN_BYTES * 0.3:
                         print(
                             f"Skipping trajectoryid {trajectory_id} with downloadid {download_id} because size {size} exceeds limit."
                         )
